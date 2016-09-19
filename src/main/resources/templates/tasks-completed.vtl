@@ -1,0 +1,12 @@
+<h1>$category.getName() Completed Tasks:</h1>
+
+<ul>
+  #foreach($task in $category)
+    #if($task.isCompleted())
+      <li>$task.getDescription()</li>
+    #end
+  #end
+</ul>
+
+<p><a href="/categories/$category.getId()/tasks/new">Add a new task</a></p>
+<p><a href="/categories">All categories</a></p>

@@ -25,6 +25,10 @@ public class Task {
     return completed;
   }
 
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
+  }
+
   public int getCategoryId() {
     return categoryId;
   }
@@ -54,10 +58,11 @@ public class Task {
 
   public void save() {
    try(Connection con = DB.sql2o.open()) {
-     String sql = "INSERT INTO tasks (description, categoryId) VALUES (:description, :categoryId)";
+     String sql = "INSERT INTO tasks (description, categoryId, completed) VALUES (:description, :categoryId, :completed)";
      this.id = (int) con.createQuery(sql, true)
        .addParameter("description", this.description)
        .addParameter("categoryId", this.categoryId)
+       .addParameter("completed", this.completed)
        .executeUpdate()
        .getKey();
    }

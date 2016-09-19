@@ -63,6 +63,14 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/categories/:id/task/completed", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Category category = Category.find(Integer.parseInt(request.params(":id")));
+      model.put("category", category);
+      model.put("template", "templates/tasks-completed.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     post("/categories", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
@@ -80,6 +88,19 @@ public class App {
       newTask.save();
       model.put("category", category);
       model.put("template", "templates/category-tasks-success.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/categories/:id/task/completed", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Category category = Category.find(Integer.parseInt(request.params(":id")));
+      List<Integer> taskCheck = new ArrayList<Integer>();
+      taskCheck.add(Integer.parseInt(request.queryParams("taskCheck")));
+      for(Integer completed : taskCheck ) {
+        Task.find(completed).setCompleted(true);
+      }
+      model.put("category", category);
+      model.put("template", "templates/tasks-completed.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
   }
