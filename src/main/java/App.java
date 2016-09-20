@@ -94,11 +94,14 @@ public class App {
     post("/categories/:id/task/completed", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Category category = Category.find(Integer.parseInt(request.params(":id")));
-      List<Integer> taskCheck = new ArrayList<Integer>();
-      taskCheck.add(Integer.parseInt(request.queryParams("taskCheck")));
-      for(Integer completed : taskCheck ) {
-        Task.find(completed).setCompleted(true);
-      }
+      String[] taskCheck = request.queryParamsValues("taskCheck");
+      List<Integer> checkedTasks = new ArrayList<Integer>();
+      for(String checked : taskCheck) {
+        checkedTasks.add(Integer.parseInt(checked));
+      };
+      for(Integer completed : checkedTasks) {
+        Task.find(completed).setCompleted(true, completed);
+      };
       model.put("category", category);
       model.put("template", "templates/tasks-completed.vtl");
       return new ModelAndView(model, layout);

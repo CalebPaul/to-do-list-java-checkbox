@@ -1,7 +1,7 @@
 <h1>$category.getName() Completed Tasks:</h1>
 
 <ul>
-  #foreach($task in $category)
+  #foreach($task in $category.getTasks())
     #if($task.isCompleted())
       <li>$task.getDescription()</li>
     #end

@@ -25,7 +25,14 @@ public class Task {
     return completed;
   }
 
-  public void setCompleted(boolean completed) {
+  public void setCompleted(boolean completed, int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE tasks SET completed = :completed WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("completed", completed)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
     this.completed = completed;
   }
 

@@ -35,6 +35,12 @@ public class TaskTest {
   }
 
   @Test
+  public void setCompleted_changesCompletedToTrue_true() {
+    firstTask.setCompleted(true, 1);
+    assertTrue(firstTask.isCompleted());
+  }
+
+  @Test
   public void all_returnsAllInstancesOfTask_true() {
     firstTask.save();
     secondTask.save();
